@@ -51,14 +51,14 @@
   };
 </script>
 
-  <meta name="description" content="Closure一、概念A closure is the combination of a function and the lexical environment within which that function was declared.二、Lexical Environment（词法环境）​        这个链接详细介绍了什么是词法环境。 三、区分的两个概念​        一开始看闭包">
+  <meta name="description" content="Closure一、概念A closure is the combination of a function and the lexical environment within which that function was declared.二、Lexical Environment（词法环境）​        这个链接详细介绍了什么是词法环境。https:&#x2F;&#x2F;segmentfault.com&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS Chapter 5">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;06&#x2F;02&#x2F;JS%20Chapter%205&#x2F;index.html">
 <meta property="og:site_name" content="HCL&#39;s Blog">
-<meta property="og:description" content="Closure一、概念A closure is the combination of a function and the lexical environment within which that function was declared.二、Lexical Environment（词法环境）​        这个链接详细介绍了什么是词法环境。 三、区分的两个概念​        一开始看闭包">
+<meta property="og:description" content="Closure一、概念A closure is the combination of a function and the lexical environment within which that function was declared.二、Lexical Environment（词法环境）​        这个链接详细介绍了什么是词法环境。https:&#x2F;&#x2F;segmentfault.com&#x2F;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-05T08:08:51.191Z">
+<meta property="og:updated_time" content="2020-06-05T08:13:13.918Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2020/06/02/JS%20Chapter%205/">
@@ -221,7 +221,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-05 16:08:51" itemprop="dateModified" datetime="2020-06-05T16:08:51+08:00">2020-06-05</time>
+                <time title="修改时间：2020-06-05 16:13:13" itemprop="dateModified" datetime="2020-06-05T16:13:13+08:00">2020-06-05</time>
               </span>
 
           
@@ -235,7 +235,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Closure"><a href="#Closure" class="headerlink" title="Closure"></a>Closure</h2><h3 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h3><h6 id="A-closure-is-the-combination-of-a-function-and-the-lexical-environment-within-which-that-function-was-declared"><a href="#A-closure-is-the-combination-of-a-function-and-the-lexical-environment-within-which-that-function-was-declared" class="headerlink" title="A closure is the combination of a function and the lexical environment within which that function was declared."></a>A closure is the combination of a function and the lexical environment within which that function was declared.</h6><h3 id="二、Lexical-Environment（词法环境）"><a href="#二、Lexical-Environment（词法环境）" class="headerlink" title="二、Lexical Environment（词法环境）"></a>二、Lexical Environment（词法环境）</h3><p>​        这个链接详细介绍了什么是词法环境。</p>
+        <h2 id="Closure"><a href="#Closure" class="headerlink" title="Closure"></a>Closure</h2><h3 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h3><h6 id="A-closure-is-the-combination-of-a-function-and-the-lexical-environment-within-which-that-function-was-declared"><a href="#A-closure-is-the-combination-of-a-function-and-the-lexical-environment-within-which-that-function-was-declared" class="headerlink" title="A closure is the combination of a function and the lexical environment within which that function was declared."></a>A closure is the combination of a function and the lexical environment within which that function was declared.</h6><h3 id="二、Lexical-Environment（词法环境）"><a href="#二、Lexical-Environment（词法环境）" class="headerlink" title="二、Lexical Environment（词法环境）"></a>二、Lexical Environment（词法环境）</h3><p>​        这个链接详细介绍了什么是词法环境。<a href="https://segmentfault.com/a/1190000015172796" target="_blank" rel="noopener">https://segmentfault.com/a/1190000015172796</a> </p>
 <h3 id="三、区分的两个概念"><a href="#三、区分的两个概念" class="headerlink" title="三、区分的两个概念"></a>三、区分的两个概念</h3><p>​        一开始看闭包这个部分的时候一直没有搞懂为什么不能在外部变量访问内部变量的问题，其实是我把两个概念给搞混了。</p>
 <p>​        为什么不能访问内部变量这个问题很简单，就是局部变量的生存周期与函数的调用时一样，一旦函数调用完毕，这些局部变量就不在存在了。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> outter = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">let</span> inner = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
