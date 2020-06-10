@@ -58,7 +58,7 @@
 <meta property="og:site_name" content="HCL&#39;s Blog">
 <meta property="og:description" content="Closure一、概念A closure is the combination of a function and the lexical environment within which that function was declared.二、Lexical Environment（词法环境）​        这个链接详细介绍了什么是词法环境。https:&#x2F;&#x2F;segmentfault.com&#x2F;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-09T05:58:51.877Z">
+<meta property="og:updated_time" content="2020-06-09T11:24:36.886Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2020/06/02/JS%20Chapter%205/">
@@ -161,7 +161,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">6</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">7</span></a>
 
   </li>
   </ul>
@@ -221,7 +221,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-09 13:58:51" itemprop="dateModified" datetime="2020-06-09T13:58:51+08:00">2020-06-09</time>
+                <time title="修改时间：2020-06-09 19:24:36" itemprop="dateModified" datetime="2020-06-09T19:24:36+08:00">2020-06-09</time>
               </span>
 
           
@@ -259,6 +259,14 @@
 <p>heap堆之前了解并不多来搬运一下博客链接吧。<a href="https://blog.csdn.net/qian3223/article/details/82424757" target="_blank" rel="noopener">https://blog.csdn.net/qian3223/article/details/82424757</a></p>
 <h2 id="Types-of-JavaScript-variables"><a href="#Types-of-JavaScript-variables" class="headerlink" title="Types of JavaScript variables"></a>Types of JavaScript variables</h2><p>​    <code>var</code>关键字是JavaScript创造开始时的一部分，然而<code>let</code>和<code>const</code>关键字的在ES6版本中更新的产物。</p>
 <h3 id="变量易变性（variables-mutability）"><a href="#变量易变性（variables-mutability）" class="headerlink" title="变量易变性（variables mutability）"></a>变量易变性（variables mutability）</h3><p>​    如果我们按照变量区分他们，<code>const</code>则与剩余的两个有很大区别。所有以<code>const</code>声明的变量都是不可改变的。那么以剩下两个关键字声明的变量都可以反复改变很多次的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> firstConst = <span class="string">"samurai"</span>;</span><br><span class="line">assert(firstConst === <span class="string">"samurai"</span>,<span class="string">"firstConst is a samruai"</span>);</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">	firstConst = <span class="string">"ninja"</span>;</span><br><span class="line">    fail(<span class="string">"Shouldn't be here"</span>);</span><br><span class="line">&#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">    pass(<span class="string">"An exception has occurred"</span>);</span><br><span class="line">&#125;</span><br><span class="line">assert(firstConst === <span class="string">"samurai"</span>,<span class="string">"firstCount is still a samuerai"</span>);</span><br><span class="line"><span class="keyword">const</span> secondConst = &#123;&#125;;</span><br><span class="line">secondConst.weapon = <span class="string">"wakizashi"</span>;</span><br><span class="line">assert(secondConst.weapon === <span class="string">"wakizashi"</span>,<span class="string">"We can add new properties"</span>);</span><br><span class="line"><span class="keyword">const</span> thirdConst = [];</span><br><span class="line">assert(thirdConst.length === <span class="number">0</span>, <span class="string">"No items in our array"</span>);</span><br><span class="line">thirdConst.push(<span class="string">"Yoshi"</span>);</span><br><span class="line">assert(thirdConst.length === <span class="number">1</span>, <span class="string">"The array has changed"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>​        首先，我们声明且初始化了<code>firstConst</code>变量为<code>samurai</code>，我们继续给他赋一个全新的值<code>ninja</code>，因为<code>firstConst</code>是一个常量，所以我们<code>ninja</code>赋值失败。所以，<code>JavaScript</code>的引擎会丢出一个<code>exception</code>事件，我们用到<code>fail</code>和<code>pass</code>方法（这两者和<code>assert</code>类似）来测试<code>exception</code>事件是否发生了。如果<code>exception</code>发生了，<code>catch</code>语句会被激活，然后<code>pass</code>语句也就被执行了。反之，<code>fail</code>语句就会被执行。</p>
+<p>​        再而，我们声明一个空对象<code>secondConst</code>和空数组<code>thirdCosnt</code>。我们已经知道了不能改变常量的值，但是我们可以给它增添属性。</p>
+<h3 id="变量声明关键字和词法作用域"><a href="#变量声明关键字和词法作用域" class="headerlink" title="变量声明关键字和词法作用域"></a>变量声明关键字和词法作用域</h3><p>​        不同关键字声明有不同的作用域，这一部分比较简单，总的来说，就是<code>var</code>无论在哪儿声明都是以最近的函数作用域或者全局作用域，而<code>const</code>和<code>let</code>可以为块作用域。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> local = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++);</span><br><span class="line">    assert(i == <span class="number">10</span>,<span class="string">"i is ten"</span>);</span><br><span class="line">&#125;</span><br><span class="line">assert(<span class="keyword">typeof</span> i === <span class="string">"undefined"</span>,<span class="string">"We cannot see function variables outside of a function"</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="在词法作用域中的寄存（状态提升）"><a href="#在词法作用域中的寄存（状态提升）" class="headerlink" title="在词法作用域中的寄存（状态提升）"></a>在词法作用域中的寄存（状态提升）</h3><p>​        在<code>JavaScript</code>中，代码的执行分为两个阶段。第一阶段为<code>JavaScript</code>引擎会把所有声明变量和函数声明在当前的词法环境内提前。第二阶段为执行阶段，由函数调用执行或者赋值时开始。其中，<code>var</code> <code>let</code> <code>const</code>只是对变量声明，没有赋值操作。</p>
 
     </div>
 
@@ -280,6 +288,9 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+                <a href="/2020/06/10/JS%20Chapter%206/" rel="prev" title="JS Chapter 6">
+                  JS Chapter 6 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
       </footer>
@@ -318,7 +329,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Closure"><span class="nav-number">1.</span> <span class="nav-text">Closure</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、概念"><span class="nav-number">1.1.</span> <span class="nav-text">一、概念</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#A-closure-is-the-combination-of-a-function-and-the-lexical-environment-within-which-that-function-was-declared"><span class="nav-number">1.1.0.0.1.</span> <span class="nav-text">A closure is the combination of a function and the lexical environment within which that function was declared.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Lexical-Environment（词法环境）"><span class="nav-number">1.2.</span> <span class="nav-text">二、Lexical Environment（词法环境）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、区分的两个概念"><span class="nav-number">1.3.</span> <span class="nav-text">三、区分的两个概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、小桃花穿越故事"><span class="nav-number">1.4.</span> <span class="nav-text">四、小桃花穿越故事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、闭包计数器"><span class="nav-number">1.5.</span> <span class="nav-text">五、闭包计数器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stack-Heap"><span class="nav-number">2.</span> <span class="nav-text">Stack Heap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Types-of-JavaScript-variables"><span class="nav-number">3.</span> <span class="nav-text">Types of JavaScript variables</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量易变性（variables-mutability）"><span class="nav-number">3.1.</span> <span class="nav-text">变量易变性（variables mutability）</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Closure"><span class="nav-number">1.</span> <span class="nav-text">Closure</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、概念"><span class="nav-number">1.1.</span> <span class="nav-text">一、概念</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#A-closure-is-the-combination-of-a-function-and-the-lexical-environment-within-which-that-function-was-declared"><span class="nav-number">1.1.0.0.1.</span> <span class="nav-text">A closure is the combination of a function and the lexical environment within which that function was declared.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Lexical-Environment（词法环境）"><span class="nav-number">1.2.</span> <span class="nav-text">二、Lexical Environment（词法环境）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、区分的两个概念"><span class="nav-number">1.3.</span> <span class="nav-text">三、区分的两个概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、小桃花穿越故事"><span class="nav-number">1.4.</span> <span class="nav-text">四、小桃花穿越故事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、闭包计数器"><span class="nav-number">1.5.</span> <span class="nav-text">五、闭包计数器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stack-Heap"><span class="nav-number">2.</span> <span class="nav-text">Stack Heap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Types-of-JavaScript-variables"><span class="nav-number">3.</span> <span class="nav-text">Types of JavaScript variables</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量易变性（variables-mutability）"><span class="nav-number">3.1.</span> <span class="nav-text">变量易变性（variables mutability）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量声明关键字和词法作用域"><span class="nav-number">3.2.</span> <span class="nav-text">变量声明关键字和词法作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在词法作用域中的寄存（状态提升）"><span class="nav-number">3.3.</span> <span class="nav-text">在词法作用域中的寄存（状态提升）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -334,7 +345,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
