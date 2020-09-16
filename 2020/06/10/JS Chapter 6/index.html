@@ -58,7 +58,7 @@
 <meta property="og:site_name" content="HCL&#39;s Blog">
 <meta property="og:description" content="Generator先看三段代码 12345678try&amp;#123;    var ninjas = syncGetJSON(&quot;ninjas.json&quot;);    var missions = syncGetJSON(ninjas[0].missionsUrl);    var missionDetails = syncGetJSON(mission[0].detailsUrl);    &#x2F;&#x2F;Stu">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-16T11:31:20.257Z">
+<meta property="og:updated_time" content="2020-07-11T08:40:06.141Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2020/06/10/JS%20Chapter%206/">
@@ -161,7 +161,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">8</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">9</span></a>
 
   </li>
   </ul>
@@ -221,7 +221,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-16 19:31:20" itemprop="dateModified" datetime="2020-06-16T19:31:20+08:00">2020-06-16</time>
+                <time title="修改时间：2020-07-11 16:40:06" itemprop="dateModified" datetime="2020-07-11T16:40:06+08:00">2020-07-11</time>
               </span>
 
           
@@ -249,7 +249,12 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">WarriorGenerator</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">yield</span> <span class="string">"Katana"</span>;</span><br><span class="line">	<span class="keyword">yield</span>* NinjaGenerator();</span><br><span class="line">	<span class="keyword">yield</span> <span class="string">"Wakizashi"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">NinjaGenerator</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">"Hattori"</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">"Yoshi"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> warrior <span class="keyword">of</span> WarriorGenerator())&#123;</span><br><span class="line">    assert(warrior !== <span class="literal">null</span>, warrior);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>类似于链表的结构。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">NinjaGenerator</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="string">"Hattori"</span>;</span><br><span class="line">        fail(<span class="string">"The expected exception didn't occur"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        assert(e === <span class="string">"Catch this!"</span>,<span class="string">"Aha! We caught an exception"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> ninjaIterator = NinjaGenrator();</span><br><span class="line"><span class="keyword">const</span> result1 = ninjaIterator().next;</span><br><span class="line">assert(result1.value === <span class="string">"Hattori"</span>, <span class="string">"We got Hattori"</span>);</span><br><span class="line">ninjaIterator.throw(<span class="string">"Catch this!"</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">NinjaGenerator</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="string">"Hattori"</span>;</span><br><span class="line">        fail(<span class="string">"The expected exception didn't occur"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        assert(e === <span class="string">"Catch this!"</span>,<span class="string">"Aha! We caught an exception"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> ninjaIterator = NinjaGenrator();</span><br><span class="line"><span class="keyword">const</span> result1 = ninjaIterator().next();</span><br><span class="line">assert(result1.value === <span class="string">"Hattori"</span>, <span class="string">"We got Hattori"</span>);</span><br><span class="line">ninjaIterator.throw(<span class="string">"Catch this!"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这里是说有throw这个方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">NinjaGenerator</span>(<span class="params">action</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> imposter = <span class="keyword">yield</span> (<span class="string">"Hattori"</span> + action);</span><br><span class="line">    assert(imposter === <span class="string">"Hanzo"</span>,<span class="string">"The generator has been infiltrated"</span>);</span><br><span class="line">    <span class="keyword">yield</span> (<span class="string">"Yoshi ("</span> + imposter + <span class="string">") "</span> + action);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> ninjaIterator = NinjaGenerator(<span class="string">"skulk"</span>);</span><br><span class="line"><span class="keyword">const</span> result1 = ninjaIterator.next();</span><br><span class="line">assert(result1.value === <span class="string">"Hattori skulk"</span>, <span class="string">"Hattori is skulking"</span>);</span><br><span class="line"><span class="keyword">const</span> result2 = ninjaIterator.next(<span class="string">"Hanzo"</span>);</span><br><span class="line">assert(result2.value === <span class="string">"Yoshi (Hanzo) skulk"</span>, <span class="string">"We have an imposter!"</span>);</span><br></pre></td></tr></table></figure>
+
+
 
 <h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>来搬一个别人的博客<a href="https://www.jianshu.com/p/1b63a13c2701" target="_blank" rel="noopener">https://www.jianshu.com/p/1b63a13c2701</a></p>
 
@@ -330,7 +335,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
