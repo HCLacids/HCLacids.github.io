@@ -160,7 +160,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">11</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">12</span></a>
 
   </li>
   </ul>
@@ -186,6 +186,84 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/02/%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2--Docker%20CI%20%E4%B8%83%E7%89%9B%E4%BA%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar1.jpg">
+      <meta itemprop="name" content="HCLacids">
+      <meta itemprop="description" content="Fighting!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HCL's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/02/%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2--Docker%20CI%20%E4%B8%83%E7%89%9B%E4%BA%91/" class="post-title-link" itemprop="url">前端部署--Docker CI 七牛云</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-02 22:10:56" itemprop="dateCreated datePublished" datetime="2021-03-02T22:10:56+08:00">2021-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-10 22:10:46" itemprop="dateModified" datetime="2021-03-10T22:10:46+08:00">2021-03-10</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​    这一次的年终项目最后完成之后要进行部署到服务器。又考虑到团队服务器的负担问题，我们需要把静态资源上传到七牛云上。最后生成镜像Image给后端部署就完成了。</p>
+<hr>
+<p>​        什么是部署？</p>
+<p>​        在了解部署之前，我们要先知道基本的计网的一些知识。我们通过浏览器打开网页时，客户端（Client），这里也是浏览器（Browser），通过向我们输入的URL找到远方的服务器请求到一些文件，HMTL、CSS、JS、PNG等。而HTML文件当中引入的Script标签会再和CSS、JS、PNG文件渲染成我们所看到的页面。DOMTree和CSSOM结合。由于我们自己服务器带宽的原因，下载速度会很慢。所以我们需要将上诉服务器请求到的静态文件上传到cdn，将生成的镜像给后端部署。整个前端部署就结束了。</p>
+<p>​        所谓部署，就是让开发出的产品能够在某一环境中运行起来。</p>
+<hr>
+<p>​        Docker</p>
+<p>​        为什么需要Docker？<a href="https://zhuanlan.zhihu.com/p/54512286" target="_blank" rel="noopener">知乎</a></p>
+<p>​        Docker本质上就是一个容器，它可以将代码放在一个里面，隔绝外部，形成一个封闭的环境。我们部署的某一环境可以是Docker容器所形成的一种。<a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" target="_blank" rel="noopener">阮一峰</a></p>
+<p>​         了解了Docker的基础知识和Dockerflie的写法，我们再看看在前端项目里面如何编写Dockerfile。<a href="https://segmentfault.com/a/1190000022144895" target="_blank" rel="noopener">segmentfault</a></p>
+<p>​        Nignix</p>
+<p>​        不多讲<a href="http://gitea.muxixyz.com/root/huashidaxigua-h5" target="_blank" rel="noopener">Gitea仓库</a></p>
+<p>​        自动化部署</p>
+<p>​        在上上一篇文章的后记中，说实现自动化部署</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -1350,81 +1428,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/06/%E5%AD%A6%E8%80%8C%E9%A1%B5%E9%9D%A2%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar1.jpg">
-      <meta itemprop="name" content="HCLacids">
-      <meta itemprop="description" content="Fighting!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="HCL's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/06/%E5%AD%A6%E8%80%8C%E9%A1%B5%E9%9D%A2%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">学而页面总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-11-06 14:30:16" itemprop="dateCreated datePublished" datetime="2019-11-06T14:30:16+08:00">2019-11-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-08 21:36:09" itemprop="dateModified" datetime="2019-11-08T21:36:09+08:00">2019-11-08</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="关于HTML和CSS的总结"><a href="#关于HTML和CSS的总结" class="headerlink" title="关于HTML和CSS的总结"></a>关于HTML和CSS的总结</h1><h6 id="在这两周时间，我写了静态的学而网页并进行了一些修改。在学姐学长的帮助和指导之下，我对网页的一些整体布局有所了解，以下为一些自己在写学而时犯下的错误。"><a href="#在这两周时间，我写了静态的学而网页并进行了一些修改。在学姐学长的帮助和指导之下，我对网页的一些整体布局有所了解，以下为一些自己在写学而时犯下的错误。" class="headerlink" title="在这两周时间，我写了静态的学而网页并进行了一些修改。在学姐学长的帮助和指导之下，我对网页的一些整体布局有所了解，以下为一些自己在写学而时犯下的错误。"></a>在这两周时间，我写了静态的学而网页并进行了一些修改。在学姐学长的帮助和指导之下，我对网页的一些整体布局有所了解，以下为一些自己在写学而时犯下的错误。</h6><h4 id="HEADER-PART"><a href="#HEADER-PART" class="headerlink" title="HEADER PART"></a>HEADER PART</h4><p>1.布局方式不要混用（其实适用于很多地方），<code>flex</code> <code>inline-block</code> 和<code>float</code>最好不要混合使用。</p>
-<p>2.尽量减少div的使用。学会思考<code>span</code>和<code>div</code>的使用情况。<code>span</code>作为行内元素，可以用来标记一些行内特殊的元素；<code>div</code>作为块元素，更好的区分出每一个区域。有时候会用很多个<code>div</code>，变成<code>inline-block</code>的样子是因为在行内中出现了不同的功能区。</p>
-<p>3.消除间隙。由于行内元素都是有间隙的所以一般需要消除间隙，例如图片与搜索框之间。</p>
-<p>4.搜索框的写法，一般是用一个大的<code>div</code>把<code>input</code>和图片包裹起来，设置<code>div</code>的<code>border</code>的颜色来展示边框。</p>
-<p>5.实现<code>:hover</code>之后，要确保前后元素的大小一致，这样才美观。</p>
-<h4 id="MIDDLE-PART"><a href="#MIDDLE-PART" class="headerlink" title="MIDDLE PART"></a>MIDDLE PART</h4><p>1.整体布局，用一个<code>div</code>来使多个中间部分水平居中。</p>
-<p>2.在整个页面中最好只采取一种布局方式。</p>
-<p>3.<code>position：sticky</code>可以适用于更多的场合，也更符合如今的审美需求。</p>
-<p>4.<code>input</code>的样式用CSS来改变</p>
-<h4 id="FOOTER-PART"><a href="#FOOTER-PART" class="headerlink" title="FOOTER PART"></a>FOOTER PART</h4><p>1.注意字符间距</p>
-<p>2.<code>body</code>的<code>margin</code>为0或者<code>padding</code>为0；</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1475,7 +1478,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1514,7 +1517,7 @@
 <div class="copyright">
   
   &copy; 2019 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

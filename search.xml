@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>前端部署--Docker CI 七牛云</title>
+      <link href="/2021/03/02/%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2--Docker%20CI%20%E4%B8%83%E7%89%9B%E4%BA%91/"/>
+      <url>/2021/03/02/%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2--Docker%20CI%20%E4%B8%83%E7%89%9B%E4%BA%91/</url>
+      
+        <content type="html"><![CDATA[<p>​    这一次的年终项目最后完成之后要进行部署到服务器。又考虑到团队服务器的负担问题，我们需要把静态资源上传到七牛云上。最后生成镜像Image给后端部署就完成了。</p><hr><p>​        什么是部署？</p><p>​        在了解部署之前，我们要先知道基本的计网的一些知识。我们通过浏览器打开网页时，客户端（Client），这里也是浏览器（Browser），通过向我们输入的URL找到远方的服务器请求到一些文件，HMTL、CSS、JS、PNG等。而HTML文件当中引入的Script标签会再和CSS、JS、PNG文件渲染成我们所看到的页面。DOMTree和CSSOM结合。由于我们自己服务器带宽的原因，下载速度会很慢。所以我们需要将上诉服务器请求到的静态文件上传到cdn，将生成的镜像给后端部署。整个前端部署就结束了。</p><p>​        所谓部署，就是让开发出的产品能够在某一环境中运行起来。</p><hr><p>​        Docker</p><p>​        为什么需要Docker？<a href="https://zhuanlan.zhihu.com/p/54512286" target="_blank" rel="noopener">知乎</a></p><p>​        Docker本质上就是一个容器，它可以将代码放在一个里面，隔绝外部，形成一个封闭的环境。我们部署的某一环境可以是Docker容器所形成的一种。<a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" target="_blank" rel="noopener">阮一峰</a></p><p>​         了解了Docker的基础知识和Dockerflie的写法，我们再看看在前端项目里面如何编写Dockerfile。<a href="https://segmentfault.com/a/1190000022144895" target="_blank" rel="noopener">segmentfault</a></p><p>​        Nignix</p><p>​        不多讲<a href="http://gitea.muxixyz.com/root/huashidaxigua-h5" target="_blank" rel="noopener">Gitea仓库</a></p><p>​        自动化部署</p><p>​        在上上一篇文章的后记中，说实现自动化部署</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>React Reudx</title>
       <link href="/2020/10/30/React%20Reudx/"/>
       <url>/2020/10/30/React%20Reudx/</url>

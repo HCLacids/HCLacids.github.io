@@ -51,16 +51,17 @@
   };
 </script>
 
-  <meta name="description" content="Fighting!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="HCL&#39;s Blog">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2019&#x2F;11&#x2F;index.html">
+  <meta name="description" content="​    这一次的年终项目最后完成之后要进行部署到服务器。又考虑到团队服务器的负担问题，我们需要把静态资源上传到七牛云上。最后生成镜像Image给后端部署就完成了。  ​        什么是部署？ ​        在了解部署之前，我们要先知道基本的计网的一些知识。我们通过浏览器打开网页时，客户端（Client），这里也是浏览器（Browser），通过向我们输入的URL找到远方的服务器请求到一些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端部署--Docker CI 七牛云">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;03&#x2F;02&#x2F;%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2--Docker%20CI%20%E4%B8%83%E7%89%9B%E4%BA%91&#x2F;index.html">
 <meta property="og:site_name" content="HCL&#39;s Blog">
-<meta property="og:description" content="Fighting!">
+<meta property="og:description" content="​    这一次的年终项目最后完成之后要进行部署到服务器。又考虑到团队服务器的负担问题，我们需要把静态资源上传到七牛云上。最后生成镜像Image给后端部署就完成了。  ​        什么是部署？ ​        在了解部署之前，我们要先知道基本的计网的一些知识。我们通过浏览器打开网页时，客户端（Client），这里也是浏览器（Browser），通过向我们输入的URL找到远方的服务器请求到一些">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-03-10T14:10:46.637Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/archives/2019/11/">
+<link rel="canonical" href="http://yoursite.com/2021/03/02/%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2--Docker%20CI%20%E4%B8%83%E7%89%9B%E4%BA%91/">
 
 
 <script id="page-configurations">
@@ -68,13 +69,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | HCL's Blog</title>
+  <title>前端部署--Docker CI 七牛云 | HCL's Blog</title>
   
 
 
@@ -185,89 +186,100 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 12 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/02/%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2--Docker%20CI%20%E4%B8%83%E7%89%9B%E4%BA%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar1.jpg">
+      <meta itemprop="name" content="HCLacids">
+      <meta itemprop="description" content="Fighting!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HCL's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端部署--Docker CI 七牛云
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-02 22:10:56" itemprop="dateCreated datePublished" datetime="2021-03-02T22:10:56+08:00">2021-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-10 22:10:46" itemprop="dateModified" datetime="2021-03-10T22:10:46+08:00">2021-03-10</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-20T15:15:20+08:00"
-              content="2019-11-20">
-          11-20
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/20/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5URL%E5%90%8E%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/" itemprop="url">
-            <span itemprop="name">浏览器输入URL后发生了什么</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-06T14:30:16+08:00"
-              content="2019-11-06">
-          11-06
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/06/%E5%AD%A6%E8%80%8C%E9%A1%B5%E9%9D%A2%E6%80%BB%E7%BB%93/" itemprop="url">
-            <span itemprop="name">学而页面总结</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-02T16:35:02+08:00"
-              content="2019-11-02">
-          11-02
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/02/%E8%87%AA%E9%80%82%E5%BA%94%E5%B1%85%E4%B8%AD/" itemprop="url">
-            <span itemprop="name">自适应居中</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
+        <p>​    这一次的年终项目最后完成之后要进行部署到服务器。又考虑到团队服务器的负担问题，我们需要把静态资源上传到七牛云上。最后生成镜像Image给后端部署就完成了。</p>
+<hr>
+<p>​        什么是部署？</p>
+<p>​        在了解部署之前，我们要先知道基本的计网的一些知识。我们通过浏览器打开网页时，客户端（Client），这里也是浏览器（Browser），通过向我们输入的URL找到远方的服务器请求到一些文件，HMTL、CSS、JS、PNG等。而HTML文件当中引入的Script标签会再和CSS、JS、PNG文件渲染成我们所看到的页面。DOMTree和CSSOM结合。由于我们自己服务器带宽的原因，下载速度会很慢。所以我们需要将上诉服务器请求到的静态文件上传到cdn，将生成的镜像给后端部署。整个前端部署就结束了。</p>
+<p>​        所谓部署，就是让开发出的产品能够在某一环境中运行起来。</p>
+<hr>
+<p>​        Docker</p>
+<p>​        为什么需要Docker？<a href="https://zhuanlan.zhihu.com/p/54512286" target="_blank" rel="noopener">知乎</a></p>
+<p>​        Docker本质上就是一个容器，它可以将代码放在一个里面，隔绝外部，形成一个封闭的环境。我们部署的某一环境可以是Docker容器所形成的一种。<a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" target="_blank" rel="noopener">阮一峰</a></p>
+<p>​         了解了Docker的基础知识和Dockerflie的写法，我们再看看在前端项目里面如何编写Dockerfile。<a href="https://segmentfault.com/a/1190000022144895" target="_blank" rel="noopener">segmentfault</a></p>
+<p>​        Nignix</p>
+<p>​        不多讲<a href="http://gitea.muxixyz.com/root/huashidaxigua-h5" target="_blank" rel="noopener">Gitea仓库</a></p>
+<p>​        自动化部署</p>
+<p>​        在上上一篇文章的后记中，说实现自动化部署</p>
 
     </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/30/React%20Reudx/" rel="next" title="React Reudx">
+                  <i class="fa fa-chevron-left"></i> React Reudx
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
