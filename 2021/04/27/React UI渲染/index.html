@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="HCL's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="​        一开始是因为老板给发的useEffect的链接去看到里面还有一篇关于React渲染机制的，因为老是看到菁程里面渲染次数问题一直没搞清楚，所以就又去看了一下，下面也会写一篇关于useEffect（其实不是特别想写因为怕是直接抄了，还是要想一下怎么用自己的理解写一篇分享吧） 一个小Demo123456import React from &amp;apos;react&amp;apos;const element = &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React UI渲染">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;04&#x2F;27&#x2F;React%20UI%E6%B8%B2%E6%9F%93&#x2F;index.html">
+<meta property="og:site_name" content="HCL&#39;s Blog">
+<meta property="og:description" content="​        一开始是因为老板给发的useEffect的链接去看到里面还有一篇关于React渲染机制的，因为老是看到菁程里面渲染次数问题一直没搞清楚，所以就又去看了一下，下面也会写一篇关于useEffect（其实不是特别想写因为怕是直接抄了，还是要想一下怎么用自己的理解写一篇分享吧） 一个小Demo123456import React from &amp;apos;react&amp;apos;const element = &amp;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-27T12:46:23.320Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/04/27/React%20UI%E6%B8%B2%E6%9F%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>React UI渲染 | HCL's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HCL's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Recording the study progress</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">13</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/27/React%20UI%E6%B8%B2%E6%9F%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar1.jpg">
+      <meta itemprop="name" content="HCLacids">
+      <meta itemprop="description" content="Fighting!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HCL's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          React UI渲染
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-27 10:57:14 / 修改时间：20:46:23" itemprop="dateCreated datePublished" datetime="2021-04-27T10:57:14+08:00">2021-04-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>​        一开始是因为老板给发的useEffect的链接去看到里面还有一篇关于React渲染机制的，因为老是看到菁程里面渲染次数问题一直没搞清楚，所以就又去看了一下，下面也会写一篇关于useEffect（其实不是特别想写因为怕是直接抄了，还是要想一下怎么用自己的理解写一篇分享吧）</p>
+<h2 id="一个小Demo"><a href="#一个小Demo" class="headerlink" title="一个小Demo"></a>一个小Demo</h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> element = <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">title</span>=<span class="string">"ele"</span>&gt;</span>This is an element.<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line"><span class="keyword">const</span> container = <span class="built_in">document</span>.getElementById(<span class="string">"root"</span>);</span><br><span class="line"></span><br><span class="line">ReactDOM.render(element, container);</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>element</code>是一个简单的<code>div</code>块,是一个<code>react</code>元素。这里区分一下DOM节点和<code>react</code>元素。<code>container</code>是获取到的DOM节点作为容器。而这里使用的还是<code>JSX</code>语法，<code>Babel</code>会将编译一下变成：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> element = React.createElement(</span><br><span class="line">	<span class="string">"div"</span>,</span><br><span class="line">    &#123; <span class="attr">title</span>: <span class="string">"ele"</span> &#125;,</span><br><span class="line">    <span class="string">"This is an element"</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> container = <span class="built_in">document</span>.getElementById(<span class="string">"root"</span>);</span><br><span class="line"></span><br><span class="line">ReactDOM.render(element, container);</span><br></pre></td></tr></table></figure>
+
+<p><code>createElement</code>接受的第一个参数是元素类型<code>div</code>；第二的参数是<code>attribute</code>对象，有<code>title</code>等属性；第三个参数是<code>textNode</code>。</p>
+<p>而事实上的一个<code>react</code>元素是这样审的：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> element = &#123;</span><br><span class="line">    type: <span class="string">"div"</span>,</span><br><span class="line">    props: &#123;</span><br><span class="line">        title: <span class="string">"ele"</span>,</span><br><span class="line">        children: <span class="string">"This is an element"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而在渲染时，发生了以下的传统DOM操作：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 ReactDOM 渲染器内部（简化版）</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createHostInstance</span>(<span class="params">reactElement</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> domNode = <span class="built_in">document</span>.createElement(reactElement.type);  </span><br><span class="line">  domNode.className = reactElement.props.className;  </span><br><span class="line">  <span class="keyword">let</span> textNode =  <span class="built_in">document</span>.createTextNode(<span class="string">""</span>)；</span><br><span class="line">  textNode.nodeValue = reactElement.props.children;</span><br><span class="line">  domNode.appendChild(textNode);</span><br><span class="line">  <span class="keyword">return</span> domNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从而将react元素变成了dom的节点。</p>
+<p>这里很明显就出现了一个问题，如何处理<code>children</code>是需要优化的。因为<code>children</code>也有可能是一个数组对象（其他的react元素）。</p>
+<p>例如这样的一个<code>element</code>：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> element = (</span><br><span class="line">	&lt;div id=<span class="string">"foo"</span>&gt;</span><br><span class="line">    &lt;a&gt;bar&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">    &lt;b /</span>&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">)</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/经过编译后</span></span><br><span class="line"><span class="regexp">const element = React.createElement(</span></span><br><span class="line"><span class="regexp">  "div",</span></span><br><span class="line"><span class="regexp">  &#123; id: "foo" &#125;,</span></span><br><span class="line"><span class="regexp">  React.createElement("a", null, "bar"),</span></span><br><span class="line"><span class="regexp">  React.createElement("b")</span></span><br><span class="line"><span class="regexp">)</span></span><br></pre></td></tr></table></figure>
+
+<p>我们开始工厂模式创造元素：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createElement</span>(<span class="params">type, props, ...children</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    type,</span><br><span class="line">    props: &#123;</span><br><span class="line">      ...props,</span><br><span class="line">      children: children.map(<span class="function"><span class="params">child</span> =&gt;</span></span><br><span class="line">        <span class="keyword">typeof</span> child === <span class="string">"object"</span></span><br><span class="line">          ? child</span><br><span class="line">          : createTextElement(child)</span><br><span class="line">      ),</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createTextElement</span>(<span class="params">text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    type: <span class="string">"TEXT_ELEMENT"</span>,</span><br><span class="line">    props: &#123;</span><br><span class="line">      nodeValue: text,</span><br><span class="line">      children: [],</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们自己设计了两个函数，来生成元素节点或者文本节点。文本节点的<code>type</code>为”TEXT_ELEMENT“,且将children置为空数组。这样就可以区分不同的<code>child</code>了。</p>
+<p>接下来就是<code>render</code>部分了：follow step by step.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">element, container</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// TODO create dom nodes</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">element, container</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> dom = <span class="built_in">document</span>.createElement(element.type)</span><br><span class="line"></span><br><span class="line">  container.appendChild(dom)</span><br><span class="line">&#125;<span class="comment">// 将react元素转化为dom节点</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">element, container</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> dom = <span class="built_in">document</span>.createElement(element.type)</span><br><span class="line"></span><br><span class="line">  element.props.children.forEach(<span class="function"><span class="params">child</span> =&gt;</span></span><br><span class="line">    render(child, dom)</span><br><span class="line">  )<span class="comment">// 遍历children， 递归调用</span></span><br><span class="line"></span><br><span class="line">  container.appendChild(dom)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">element, container</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> dom =</span><br><span class="line">    element.type == <span class="string">"TEXT_ELEMENT"</span></span><br><span class="line">      ? <span class="built_in">document</span>.createTextNode(<span class="string">""</span>)</span><br><span class="line">      : <span class="built_in">document</span>.createElement(element.type)</span><br><span class="line">	<span class="comment">//dom可能为文本节点和元素节点两类</span></span><br><span class="line">  element.props.children.forEach(<span class="function"><span class="params">child</span> =&gt;</span></span><br><span class="line">    render(child, dom)</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  container.appendChild(dom)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">element, container</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> dom =</span><br><span class="line">    element.type == <span class="string">"TEXT_ELEMENT"</span></span><br><span class="line">      ? <span class="built_in">document</span>.createTextNode(<span class="string">""</span>)</span><br><span class="line">      : <span class="built_in">document</span>.createElement(element.type)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> isProperty = <span class="function"><span class="params">key</span> =&gt;</span> key !== <span class="string">"children"</span> <span class="comment">//判断是不是children属性</span></span><br><span class="line">  <span class="built_in">Object</span>.keys(element.props)</span><br><span class="line">    .filter(isProperty)</span><br><span class="line">    .forEach(<span class="function"><span class="params">name</span> =&gt;</span> &#123;</span><br><span class="line">      dom[name] = element.props[name]</span><br><span class="line">    &#125;)<span class="comment">//将除了children属性的属性赋给节点</span></span><br><span class="line"></span><br><span class="line">  element.props.children.forEach(<span class="function"><span class="params">child</span> =&gt;</span></span><br><span class="line">    render(child, dom)</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  container.appendChild(dom)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在大概讲了render和元素的一些基本概念后（突然感觉跑偏了好多），react元素之间通过父子的关系形成了数的结构。</p>
+<p>在某一时间节点调用 React 的 <code>render()</code> 方法，会创建一棵由 React 元素组成的树。在下一次 state 或 props 更新时，相同的 <code>render()</code> 方法会返回一棵不同的树。React 需要基于这两棵树之间的差别来判断如何高效的更新 UI，以保证当前 UI 与最新的树保持同步。</p>
+<p>此算法有一些通用的解决方案，即生成将一棵树转换成另一棵树的最小操作次数。然而，即使使用<a href="http://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf" target="_blank" rel="noopener">最优的算法</a>，该算法的复杂程度仍为 O(n^3 )，其中 n 是树中元素的数量。</p>
+<p>如果在 React 中使用该算法，那么展示 1000 个元素则需要 10 亿次的比较。这个开销实在是太过高昂。于是 React 在以下两个假设的基础之上提出了一套 O(n) 的启发式算法：</p>
+<ol>
+<li>两个不同类型的元素会产生出不同的树；</li>
+<li>开发者可以通过设置 <code>key</code> 属性，来告知渲染哪些子元素在不同的渲染下可以保存不变；</li>
+</ol>
+<p>在实践中，我们发现以上假设在几乎所有实用的场景下都成立。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一次渲染</span></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;dialog&gt;</span><br><span class="line">    &lt;input /&gt;</span><br><span class="line">  &lt;<span class="regexp">/dialog&gt;,</span></span><br><span class="line"><span class="regexp">  domContainer</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 下一次渲染</span></span><br><span class="line"><span class="regexp">ReactDOM.render(</span></span><br><span class="line"><span class="regexp">  &lt;dialog&gt;</span></span><br><span class="line"><span class="regexp">    &lt;p&gt;I was just added here!&lt;/</span>p&gt;    <span class="xml"><span class="tag">&lt;<span class="name">input</span> /&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">dialog</span>&gt;</span></span>,</span><br><span class="line">  domContainer</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>react会对比元素类型，dialog ==&gt; dialog不变，仅比对更新有改变的属性；input ==&gt; p 发生了改变。删掉原来的节点，新建新的节点。(nothing) ==&gt; input ：需要重新创建一个 <code>input</code> 宿主实例。</p>
+<p>在现实写代码我们不会多次调用render，而是在p标签的位置做一些手脚。</p>
+<p>而当遇到动态列表时，我们不能确定其中的顺序总是一成不变的。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ShoppingList</span>(<span class="params">&#123; list &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;form&gt;</span><br><span class="line">      &#123;list.map(<span class="function"><span class="params">item</span> =&gt;</span> (</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">          You bought &#123;item.name&#125;</span><br><span class="line">          &lt;br /&gt;</span><br><span class="line">          Enter how many <span class="keyword">do</span> you want: <span class="xml"><span class="tag">&lt;<span class="name">input</span> /&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line">      ))&#125;</span><br><span class="line">    &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们的商品列表被重新排序了，React 只会看到所有的 <code>p</code> 以及里面的 <code>input</code> 拥有相同的类型，并不知道该如何移动它们。（在 React 看来，虽然这些商品本身改变了，但是它们的顺序并没有改变。）</p>
+<p>所以 React 会对这十个商品进行类似如下的重排序：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">let</span> pNode = formNode.childNodes[i];</span><br><span class="line">  <span class="keyword">let</span> textNode = pNode.firstChild;</span><br><span class="line">  textNode.textContent = <span class="string">'You bought '</span> + items[i].name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>React 只会对其中的每个元素进行更新而不是将其重新排序。这样做会造成性能上的问题和潜在的 bug 。例如，当商品列表的顺序改变时，原本在第一个输入框的内容仍然会存在于现在的第一个输入框中 — 尽管事实上在商品列表里它应该代表着其他的商品！</p>
+<p><strong>这就是为什么每次当输出中包含元素数组时，React 都会让你指定一个叫做 <code>key</code> 的属性：</strong></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ShoppingList</span>(<span class="params">&#123; list &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;form&gt;</span><br><span class="line">      &#123;list.map(<span class="function"><span class="params">item</span> =&gt;</span> (</span><br><span class="line">        &lt;p key=&#123;item.productId&#125;&gt;          You bought &#123;item.name&#125;</span><br><span class="line">          &lt;br /&gt;</span><br><span class="line">          Enter how many <span class="keyword">do</span> you want: <span class="xml"><span class="tag">&lt;<span class="name">input</span> /&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line">      ))&#125;</span><br><span class="line">    &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>key</code> 给予 React 判断子元素是否真正相同的能力，即使在渲染前后它在父元素中的位置不是相同的。</p>
+<p>当 React 在 <code>&lt;form&gt;</code> 中发现 <code>&lt;p key=&quot;42&quot;&gt;</code> ，它就会检查之前版本中的 <code>&lt;form&gt;</code> 是否同样含有 <code>&lt;p key=&quot;&quot;42&gt;</code> 。即使 <code>&lt;form&gt;</code> 中的子元素们改变位置后，这个方法同样有效。在渲染前后当 key 仍然相同时，React 会重用先前的宿主实例，然后重新排序其兄弟元素。</p>
+<p>需要注意的是 <code>key</code> 只与特定的父亲 React 元素相关联，比如 <code>&lt;form&gt;</code> 。React 并不会去匹配父元素不同但 key 相同的子元素。（React 并没有惯用的支持对在不重新创建元素的情况下让宿主实例在不同的父元素之间移动。）</p>
+<p>给 <code>key</code> 赋予什么值最好呢？最好的答案就是：<strong>什么时候你会说一个元素不会改变即使它在父元素中的顺序被改变？</strong> 例如，在我们的商品列表中，商品本身的 ID 是区别于其他商品的唯一标识，那么它就最适合作为 <code>key</code> 。</p>
+<p>最后，你也可以使用元素在数组中的下标作为 key。这个策略在元素不进行重新排序时比较合适，如果有顺序修改，diff 就会变慢。</p>
+<p>当基于下标的组件进行重新排序时，组件 state 可能会遇到一些问题。由于组件实例是基于它们的 key 来决定是否更新以及复用，如果 key 是一个下标，那么修改顺序时会修改当前的 key，导致非受控组件的 state（比如输入框）可能相互篡改，会出现无法预期的变动。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/03/02/%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2--Docker%20CI%20%E4%B8%83%E7%89%9B%E4%BA%91/" rel="next" title="前端部署--Docker CI 七牛云">
+                  <i class="fa fa-chevron-left"></i> 前端部署--Docker CI 七牛云
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个小Demo"><span class="nav-number">1.</span> <span class="nav-text">一个小Demo</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="HCLacids"
+    src="/images/avatar1.jpg">
+  <p class="site-author-name" itemprop="name">HCLacids</p>
+  <div class="site-description" itemprop="description">Fighting!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HCLacids" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;HCLacids" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/en" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HCLacids</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
