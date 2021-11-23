@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="HCL's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Connect()Connect()是连接React和Redux store的函数。 它可以从Store当中拿出一些碎片的数据，传递给和它相连的组件。函数还可以发送一些action给Store。 它不会修改传递给它的组件类。而是返回一个新的，已连接的组件类，该类包含传入的组件。 1function connect(mapStateToProps?, mapDispatchToProps?, mer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Redux">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;22&#x2F;React%20Redux&#x2F;index.html">
+<meta property="og:site_name" content="HCL&#39;s Blog">
+<meta property="og:description" content="Connect()Connect()是连接React和Redux store的函数。 它可以从Store当中拿出一些碎片的数据，传递给和它相连的组件。函数还可以发送一些action给Store。 它不会修改传递给它的组件类。而是返回一个新的，已连接的组件类，该类包含传入的组件。 1function connect(mapStateToProps?, mapDispatchToProps?, mer">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-10-31T06:21:22.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/09/22/React%20Redux/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>React Redux | HCL's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HCL's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Recording the study progress</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">15</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/22/React%20Redux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar1.jpg">
+      <meta itemprop="name" content="HCLacids">
+      <meta itemprop="description" content="Fighting!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HCL's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          React Redux
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-22 10:40:58" itemprop="dateCreated datePublished" datetime="2021-09-22T10:40:58+08:00">2021-09-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-31 14:21:22" itemprop="dateModified" datetime="2020-10-31T14:21:22+08:00">2020-10-31</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Connect"><a href="#Connect" class="headerlink" title="Connect()"></a><code>Connect()</code></h1><p><code>Connect()</code>是连接<code>React</code>和<code>Redux store</code>的函数。</p>
+<p>它可以从<code>Store</code>当中拿出一些碎片的数据，传递给和它相连的组件。函数还可以发送一些<code>action</code>给<code>Store</code>。</p>
+<p>它不会修改传递给它的组件类。而是返回一个新的，已连接的组件类，该类包含传入的组件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps?, mapDispatchToProps?, mergeProps?, options?</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p><code>mapStateToProps</code>和<code>mapDispatchToProps</code>分别处理的是<code>Redux Store</code>的<code>state</code>数据和<code>dispatch</code>方法。</p>
+<p>函数返回的<code>mapStateToProps</code>和<code>mapDispatchToProps</code>分别指向组件内部的<code>stateProps</code>和<code>dispatchProps</code>。</p>
+<h2 id="connect-参数"><a href="#connect-参数" class="headerlink" title="connect() 参数"></a><code>connect()</code> 参数</h2><p><code>connect</code> 可以接受四个不同的参数, 全部都是可选的：</p>
+<ol>
+<li><code>mapStateToProps?: Function</code></li>
+<li><code>mapDispatchToProps?: Function | Object</code></li>
+<li><code>mergeProps?: Function</code></li>
+<li><code>options?: Object</code></li>
+</ol>
+<h1 id="Connect-Extracting-Data-with-mapStateToProps"><a href="#Connect-Extracting-Data-with-mapStateToProps" class="headerlink" title="Connect: Extracting Data with mapStateToProps"></a>Connect: Extracting Data with <code>mapStateToProps</code></h1><p>作为第一个传入<code>connect</code>的参数，<code>mapStateToProps</code>从<code>Store</code>选择一部分数据，传给需要的组件。</p>
+<ul>
+<li>当<code>store</code>的<code>state</code>数据变化的时候会调用改函数。</li>
+<li>它接受一整个<code>store state</code>，返回一个对象包含组件需要的数据。</li>
+</ul>
+<h2 id="定义-mapStateToProps"><a href="#定义-mapStateToProps" class="headerlink" title="定义 mapStateToProps"></a>定义 <code>mapStateToProps</code></h2><p><code>mapStateToProps</code>应该被定义为一个函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapStateToProps</span>(<span class="params">state, ownProps?</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>它应该接受一个名为<code>state</code>的第一个参数，可以选择一个称为<code>ownProps</code>的第二个参数，并返回一个包含连接组件所需数据的普通对象。</p>
+<p>此函数应作为<code>connect</code>的第一个参数传递，并将在每次<code>Redux</code>存储状态更改时调用。如果您不想订阅存储，请传递<code>null</code>或undefined来代替<code>mapStateToProps</code>进行连接。</p>
+<p>不管<code>mapstatetops</code>函数是使用<code>function</code>关键字<code>（function mapState（state）{}）</code>还是作为箭头函数<code>（constmapstate=（state）=&gt;{}</code>编写的，它的工作方式都是一样的。</p>
+<h3 id="Arguments"><a href="#Arguments" class="headerlink" title="Arguments"></a>Arguments</h3><ol>
+<li><strong><code>state</code></strong></li>
+<li><strong><code>ownProps</code> (可选的)</strong></li>
+</ol>
+<h4 id="state"><a href="#state" class="headerlink" title="state"></a><code>state</code></h4><p><code>mapStateToProps</code>函数的第一个参数是整个<code>Redux</code>存储状态（调用存储.<code>getState()</code>). 因此，第一个论点传统上被称为<code>state</code>。（虽然您可以给参数指定任何名称，但将其称为store是不正确的-它是“state value”，而不是“store instance”。）</p>
+<p>至少state作为参数是应该被传入到mapStateToProps函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapStateToProps</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; todos &#125; = state</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">todoList</span>: todos.allIds &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(mapStateToProps)(TodoList)</span><br></pre></td></tr></table></figure>
+
+<h4 id="ownProps-optional"><a href="#ownProps-optional" class="headerlink" title="ownProps (optional)"></a><code>ownProps</code> (optional)</h4><p>如果组件需要从自己的属性中获取数据来从存储中检索数据，则可以使用第二个参数ownProps定义函数。此参数将包含给connect生成的包装器组件的所有属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapStateToProps</span>(<span class="params">state, ownProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; visibilityFilter &#125; = state</span><br><span class="line">  <span class="keyword">const</span> &#123; id &#125; = ownProps</span><br><span class="line">  <span class="keyword">const</span> todo = getTodoById(state, id)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// component receives additionally:</span></span><br><span class="line">  <span class="keyword">return</span> &#123; todo, visibilityFilter &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Later, in your application, a parent component renders:</span></span><br><span class="line">;<span class="xml"><span class="tag">&lt;<span class="name">ConnectedTodo</span> <span class="attr">id</span>=<span class="string">&#123;123&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="xml">// and your component receives props.id, props.todo, and props.visibilityFilter</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Return"><a href="#Return" class="headerlink" title="Return"></a>Return</h3><p>mapToProps函数应返回一个包含组件所需数据的纯对象：</p>
+<ul>
+<li>Each field in the object will become a prop for your actual component</li>
+<li>The values in the fields will be used to determine if your component needs to re-render</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapStateToProps</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    a: <span class="number">42</span>,</span><br><span class="line">    todos: state.todos,</span><br><span class="line">    filter: state.visibilityFilter</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// component will receive: props.a, props.todos, and props.filter</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Usage-Guidelines"><a href="#Usage-Guidelines" class="headerlink" title="Usage Guidelines"></a>Usage Guidelines</h2><ol>
+<li><h3 id="Let-mapStateToProps-Reshape-the-Data-from-the-Store"><a href="#Let-mapStateToProps-Reshape-the-Data-from-the-Store" class="headerlink" title="Let mapStateToProps Reshape the Data from the Store"></a>Let <code>mapStateToProps</code> Reshape the Data from the Store</h3></li>
+<li><h3 id="Use-Selector-Functions-to-Extract-and-Transform-Data"><a href="#Use-Selector-Functions-to-Extract-and-Transform-Data" class="headerlink" title="Use Selector Functions to Extract and Transform Data"></a>Use Selector Functions to Extract and Transform Data</h3></li>
+<li><h3 id="mapStateToProps-Functions-Should-Be-Fast"><a href="#mapStateToProps-Functions-Should-Be-Fast" class="headerlink" title="mapStateToProps Functions Should Be Fast"></a><code>mapStateToProps</code> Functions Should Be Fast</h3></li>
+<li><h3 id="mapStateToProps-Functions-Should-Be-Pure-and-Synchronous"><a href="#mapStateToProps-Functions-Should-Be-Pure-and-Synchronous" class="headerlink" title="mapStateToProps Functions Should Be Pure and Synchronous"></a><code>mapStateToProps</code> Functions Should Be Pure and Synchronous</h3></li>
+</ol>
+<h1 id="Connect-Dispatching-Actions-with-mapDispatchToProps"><a href="#Connect-Dispatching-Actions-with-mapDispatchToProps" class="headerlink" title="Connect: Dispatching Actions with mapDispatchToProps"></a>Connect: Dispatching Actions with <code>mapDispatchToProps</code></h1><p>作为传递给connect的第二个参数，mapDispatchToProps用于将操作分派到存储区。</p>
+<p><code>dispatch</code>是Redux Store之中唯一的函数。我们只有调用<code>store.dispatch</code>去发送一个<code>action</code>。</p>
+<p>使用React Redux，您的组件永远不会直接访问存储区—connect会为您执行此操作。React Redux为您提供了两种让组件分派操作的方法：</p>
+<ul>
+<li>By default, a connected component receives <code>props.dispatch</code> and can dispatch actions itself.</li>
+<li><code>connect</code> can accept an argument called <code>mapDispatchToProps</code>, which lets you create functions that dispatch when called, and pass those functions as props to your component.</li>
+</ul>
+<h2 id="Approaches-for-Dispatching"><a href="#Approaches-for-Dispatching" class="headerlink" title="Approaches for Dispatching"></a>Approaches for Dispatching</h2><h3 id="Default-dispatch-as-a-Prop"><a href="#Default-dispatch-as-a-Prop" class="headerlink" title="Default: dispatch as a Prop"></a>Default: <code>dispatch</code> as a Prop</h3><p>如果不指定connect（）的第二个参数，则默认情况下，组件将接收dispatch。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">connect()(MyComponent)</span><br><span class="line"><span class="comment">// which is equivalent with</span></span><br><span class="line">connect(</span><br><span class="line">  <span class="literal">null</span>,</span><br><span class="line">  <span class="literal">null</span></span><br><span class="line">)(MyComponent)</span><br><span class="line"></span><br><span class="line"><span class="comment">// or</span></span><br><span class="line">connect(mapStateToProps <span class="comment">/** no second argument */</span>)(MyComponent)</span><br></pre></td></tr></table></figure>
+
+<p>以这种方式连接组件后，组件将接收道具调度. 您可以使用它将操作分派到存储。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Counter</span>(<span class="params">&#123; count, dispatch &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;button onClick=&#123;() =&gt; dispatch(&#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;)&#125;&gt;-<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">      &lt;span&gt;&#123;count&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; dispatch(&#123; type: 'INCREMENT' &#125;)&#125;&gt;+&lt;/</span>button&gt;</span><br><span class="line">      &lt;button onClick=&#123;() =&gt; dispatch(&#123; <span class="attr">type</span>: <span class="string">'RESET'</span> &#125;)&#125;&gt;reset&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Providing-A-mapDispatchToProps-Parameter"><a href="#Providing-A-mapDispatchToProps-Parameter" class="headerlink" title="Providing A mapDispatchToProps Parameter"></a>Providing A <code>mapDispatchToProps</code> Parameter</h3><p>提供mapDispatchToProps允许您指定哪一种的<code>action</code>需要被分派。它允许您提供<code>action dispatch</code>作为传参。因此，与其调用函数<code>props.dispatch(()=&gt;increment())</code>，可以调用直接调用<code>prop.increment()</code>。你可能想这么做有几个原因。</p>
+<h4 id="More-Declarative"><a href="#More-Declarative" class="headerlink" title="More Declarative"></a>More Declarative</h4><p>首先，将<code>dispatch</code>逻辑封装到函数中使实现更具声明性。<code>dispatch</code>一个动作并让Redux存储处理数据流是如何实现行为的，而不是它做什么。</p>
+<p>一个很好的例子是在单击按钮时<code>dispatch</code>操作。直接连接按钮在概念上可能没有意义，按钮引用<code>dispatch</code>也没有意义。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// button needs to be aware of "dispatch"</span></span><br><span class="line">&lt;button onClick=&#123;() =&gt; dispatch(&#123; <span class="attr">type</span>: <span class="string">"SOMETHING"</span> &#125;)&#125; /&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// button unaware of "dispatch",</span></span><br><span class="line">&lt;button onClick=&#123;doSomething&#125; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>一旦您用<code>dispatch</code>动作的函数包装了所有<code>action</code>创建者，组件就不需要分派了。因此，如果您定义自己的<code>mapDispatchToProps</code>，则连接的组件将不再接收<code>dispatch</code>。</p>
+<h4 id="Pass-Down-Action-Dispatching-Logic-to-Unconnected-Child-Components"><a href="#Pass-Down-Action-Dispatching-Logic-to-Unconnected-Child-Components" class="headerlink" title="Pass Down Action Dispatching Logic to ( Unconnected ) Child Components"></a>Pass Down Action Dispatching Logic to ( Unconnected ) Child Components</h4><p>此外，您还可以将操作分派函数传递给子（可能是未连接的）组件。这允许更多的组件分派动作，同时让它们“不知道”Redux。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pass down toggleTodo to child component</span></span><br><span class="line"><span class="comment">// making Todo able to dispatch the toggleTodo action</span></span><br><span class="line"><span class="keyword">const</span> TodoList = <span class="function">(<span class="params">&#123; todos, toggleTodo &#125;</span>) =&gt;</span> (</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &#123;todos.map(<span class="function"><span class="params">todo</span> =&gt;</span> (</span><br><span class="line">      &lt;Todo todo=&#123;todo&#125; onClick=&#123;toggleTodo&#125; /&gt;</span><br><span class="line">    ))&#125;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">)</span></span><br></pre></td></tr></table></figure>
+
+<p>这就是<code>React Redux</code>的<code>connect</code>所做的——它封装了与<code>Redux store</code>对话的逻辑，让您不用担心它。这是你应该在你的实现中充分利用的。</p>
+<h2 id="Two-Forms-of-mapDispatchToProps"><a href="#Two-Forms-of-mapDispatchToProps" class="headerlink" title="Two Forms of mapDispatchToProps"></a>Two Forms of <code>mapDispatchToProps</code></h2><p>mapDispatchToProps参数可以有两种形式。虽然函数形式允许更多的定制，但对象形式易于使用。</p>
+<ul>
+<li><strong>Function form</strong>: Allows more customization, gains access to <code>dispatch</code> and optionally <code>ownProps</code></li>
+<li><strong>Object shorthand form</strong>: More declarative and easier to use</li>
+</ul>
+<h2 id="Defining-mapDispatchToProps-As-A-Function"><a href="#Defining-mapDispatchToProps-As-A-Function" class="headerlink" title="Defining mapDispatchToProps As A Function"></a>Defining <code>mapDispatchToProps</code> As A Function</h2><p>将<code>mapDispatchToProps</code>定义为一个函数，可以在自定义组件接收的函数以及它们如何分派操作方面提供最大的灵活性。你可以获得调度和拥有权。您可以利用这个机会编写自定义函数，以供连接的组件调用。</p>
+<h3 id="Arguments-1"><a href="#Arguments-1" class="headerlink" title="Arguments"></a>Arguments</h3><ol>
+<li><strong><code>dispatch</code></strong></li>
+<li><strong><code>ownProps</code> (optional)</strong></li>
+</ol>
+<p><strong><code>dispatch</code></strong></p>
+<p>将调用<code>mapDispatchToProps</code>函数，并将<code>dispatch</code>作为第一个参数。通常，通过返回在其内部调用<code>dispatch()</code>的新函数，并直接传入纯操作对象或传入操作创建者的结果来使用此方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function"><span class="params">dispatch</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="comment">// dispatching plain actions</span></span><br><span class="line">    increment: <span class="function"><span class="params">()</span> =&gt;</span> dispatch(&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;),</span><br><span class="line">    decrement: <span class="function"><span class="params">()</span> =&gt;</span> dispatch(&#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;),</span><br><span class="line">    reset: <span class="function"><span class="params">()</span> =&gt;</span> dispatch(&#123; <span class="attr">type</span>: <span class="string">'RESET'</span> &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您还可能希望将参数转发给<code>action creator</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function"><span class="params">dispatch</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="comment">// explicitly forwarding arguments</span></span><br><span class="line">    onClick: <span class="function"><span class="params">event</span> =&gt;</span> dispatch(trackClick(event)), <span class="comment">//trackClick() is an anction creator</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// implicitly forwarding arguments</span></span><br><span class="line">    onReceiveImpressions: <span class="function">(<span class="params">...impressions</span>) =&gt;</span></span><br><span class="line">      dispatch(trackImpressions(impressions)) <span class="comment">//trackImpressions() is also an anction creator</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>ownProps</code> ( optional )</strong></p>
+<p>如果您的<code>mapDispatchToProps</code>函数被声明为接受两个参数，那么它将被调用，第一个参数是dispatch，传递给连接组件的属性作为第二个参数，并且在连接的组件接收到新的属性时将重新调用它。</p>
+<p>这意味着，在组件重新呈现时，您可以在组件的属性发生更改时进行重新绑定，而不是在组件重新呈现时将新的属性重新绑定到<code>action dispatchers</code>。</p>
+<p><strong>Binds on component mount</strong></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> this.props.toggleTodo(this.props.todoId)&#125; /&gt;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">const mapDispatchToProps = dispatch =&gt; &#123;</span></span><br><span class="line"><span class="xml">  return &#123;</span></span><br><span class="line"><span class="xml">    toggleTodo: todoId =&gt; dispatch(toggleTodo(todoId))</span></span><br><span class="line"><span class="xml">  &#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Binds on <code>props</code> change</strong></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> this.props.toggleTodo()&#125; /&gt;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">const mapDispatchToProps = (dispatch, ownProps) =&gt; &#123;</span></span><br><span class="line"><span class="xml">  return &#123;</span></span><br><span class="line"><span class="xml">    toggleTodo: () =&gt; dispatch(toggleTodo(ownProps.todoId))</span></span><br><span class="line"><span class="xml">  &#125;</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Return-1"><a href="#Return-1" class="headerlink" title="Return"></a>Return</h3><p><code>mapDispatchToProps</code>函数应返回一个纯对象：</p>
+<ul>
+<li>Each field in the object will become a separate prop for your own component, and the value should normally be a function that dispatches an action when called.</li>
+<li>If you use action creators ( as oppose to plain object actions ) inside <code>dispatch</code>, it is a convention to simply name the field key the same name as the action creator:</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> increment = <span class="function"><span class="params">()</span> =&gt;</span> (&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;)</span><br><span class="line"><span class="keyword">const</span> decrement = <span class="function"><span class="params">()</span> =&gt;</span> (&#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;)</span><br><span class="line"><span class="keyword">const</span> reset = <span class="function"><span class="params">()</span> =&gt;</span> (&#123; <span class="attr">type</span>: <span class="string">'RESET'</span> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function"><span class="params">dispatch</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="comment">// dispatching actions returned by action creators</span></span><br><span class="line">    increment: <span class="function"><span class="params">()</span> =&gt;</span> dispatch(increment()),</span><br><span class="line">    decrement: <span class="function"><span class="params">()</span> =&gt;</span> dispatch(decrement()),</span><br><span class="line">    reset: <span class="function"><span class="params">()</span> =&gt;</span> dispatch(reset())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>mapDispatchToProps</code>函数的返回将作为道具合并到连接的组件中。你可以直接调用他们，让他们<code>dispatch action</code>。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Counter</span>(<span class="params">&#123; count, increment, decrement, reset &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;button onClick=&#123;decrement&#125;&gt;-<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">      &lt;span&gt;&#123;count&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;increment&#125;&gt;+&lt;/</span>button&gt;</span><br><span class="line">      &lt;button onClick=&#123;reset&#125;&gt;reset&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Defining-the-mapDispatchToProps-Function-with-bindActionCreators"><a href="#Defining-the-mapDispatchToProps-Function-with-bindActionCreators" class="headerlink" title="Defining the mapDispatchToProps Function with bindActionCreators"></a>Defining the <code>mapDispatchToProps</code> Function with <code>bindActionCreators</code></h3><p>手动的将这些函数包装起来是可笑的，所以Redux提供了一个函数去简化。</p>
+<p><code>bindActionCreators</code> accepts two parameters:</p>
+<ol>
+<li>A <strong><code>function</code></strong> (an action creator) or an <strong><code>object</code></strong> (each field an action creator)</li>
+<li><code>dispatch</code></li>
+</ol>
+<p><code>bindActionCreators</code>生成的包装器函数将自动转发它们的所有参数，因此您不需要手动执行此操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; bindActionCreators &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> increment = <span class="function"><span class="params">()</span> =&gt;</span> (&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;)</span><br><span class="line"><span class="keyword">const</span> decrement = <span class="function"><span class="params">()</span> =&gt;</span> (&#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;)</span><br><span class="line"><span class="keyword">const</span> reset = <span class="function"><span class="params">()</span> =&gt;</span> (&#123; <span class="attr">type</span>: <span class="string">'RESET'</span> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// binding an action creator</span></span><br><span class="line"><span class="comment">// returns (...args) =&gt; dispatch(increment(...args))</span></span><br><span class="line"><span class="keyword">const</span> boundIncrement = bindActionCreators(increment, dispatch)</span><br><span class="line"></span><br><span class="line"><span class="comment">// binding an object full of action creators</span></span><br><span class="line"><span class="keyword">const</span> boundActionCreators = bindActionCreators(</span><br><span class="line">  &#123; increment, decrement, reset &#125;,</span><br><span class="line">  dispatch</span><br><span class="line">)</span><br><span class="line"><span class="comment">// returns</span></span><br><span class="line"><span class="comment">// &#123;</span></span><br><span class="line"><span class="comment">//   increment: (...args) =&gt; dispatch(increment(...args)),</span></span><br><span class="line"><span class="comment">//   decrement: (...args) =&gt; dispatch(decrement(...args)),</span></span><br><span class="line"><span class="comment">//   reset: (...args) =&gt; dispatch(reset(...args)),</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>To use <code>bindActionCreators</code> in our <code>mapDispatchToProps</code> function:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; bindActionCreators &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapDispatchToProps</span>(<span class="params">dispatch</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> bindActionCreators(&#123; increment, decrement, reset &#125;, dispatch)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// component receives props.increment, props.decrement, props.reset</span></span><br><span class="line">connect(</span><br><span class="line">  <span class="literal">null</span>,</span><br><span class="line">  mapDispatchToProps</span><br><span class="line">)(Counter)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Manually-Injecting-dispatch"><a href="#Manually-Injecting-dispatch" class="headerlink" title="Manually Injecting dispatch"></a>Manually Injecting <code>dispatch</code></h3><p>如果提供了<code>mapDispatchToProps</code>参数，组件将不再接收默认分派。您可以通过手动将其添加到<code>mapDispatchToProps</code>的返回中来恢复它，尽管大多数情况下您不需要这样做：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; bindActionCreators &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapDispatchToProps</span>(<span class="params">dispatch</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    dispatch,</span><br><span class="line">    ...bindActionCreators(&#123; increment, decrement, reset &#125;, dispatch)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Defining-mapDispatchToProps-As-An-Object"><a href="#Defining-mapDispatchToProps-As-An-Object" class="headerlink" title="Defining mapDispatchToProps As An Object"></a>Defining <code>mapDispatchToProps</code> As An Object</h2><p>您已经看到，在React组件中调度Redux动作的设置过程非常相似：定义一个动作创建者，将其包装在另一个类似于的函数中<code>(…args) =&gt; dispatch(actionCreator(…args))</code>，并将该包装函数作为prop传递给您的组件。</p>
+<p>因为这很普遍，所以<code>connect</code>支持参数的“对象简写”形式<code>mapDispatchToProps</code>：如果传递的对象中包含操作创建者而不是函数，<code>connect</code>则将<code>bindActionCreators</code>在内部自动调用您。</p>
+<p><strong>我们建议始终使用的“对象简写”形式<code>mapDispatchToProps</code>，除非您有特定的原因自定义调度行为。</strong></p>
+<p>注意：</p>
+<ul>
+<li><code>mapDispatchToProps</code>假定对象的每个字段都是动作创建者</li>
+<li>您的组件将不再<code>dispatch</code>作为道具接收</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// React Redux does this for you automatically:</span></span><br><span class="line">dispatch =&gt; bindActionCreators(mapDispatchToProps, dispatch)</span><br></pre></td></tr></table></figure>
+
+<p>Therefore, our <code>mapDispatchToProps</code> can simply be:</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mapDispatchToProps = &#123;</span><br><span class="line">  increment,</span><br><span class="line">  decrement,</span><br><span class="line">  reset</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Since the actual name of the variable is up to you, you might want to give it a name like <code>actionCreators</code>, or even define the object inline in the call to <code>connect</code>:</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;increment, decrement, reset&#125; <span class="keyword">from</span> <span class="string">"./counterActions"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> actionCreators = &#123;</span><br><span class="line">  increment,</span><br><span class="line">  decrement,</span><br><span class="line">  reset</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(mapState, actionCreators)(Counter);</span><br><span class="line"><span class="comment">// or</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(</span><br><span class="line">  mapState,</span><br><span class="line">  &#123; increment, decrement, reset &#125;</span><br><span class="line">)(Counter);</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/09/22/%E9%8D%93%E5%B6%87%EE%81%AC/" rel="next" title="鍓嶇">
+                  <i class="fa fa-chevron-left"></i> 鍓嶇
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/09/22/React%20UI%E5%A8%93%E5%8F%89%E7%85%8B/" rel="prev" title="React UI娓叉煋">
+                  React UI娓叉煋 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Connect"><span class="nav-number">1.</span> <span class="nav-text">Connect()</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#connect-参数"><span class="nav-number">1.1.</span> <span class="nav-text">connect() 参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Connect-Extracting-Data-with-mapStateToProps"><span class="nav-number">2.</span> <span class="nav-text">Connect: Extracting Data with mapStateToProps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义-mapStateToProps"><span class="nav-number">2.1.</span> <span class="nav-text">定义 mapStateToProps</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Arguments"><span class="nav-number">2.1.1.</span> <span class="nav-text">Arguments</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#state"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">state</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ownProps-optional"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">ownProps (optional)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Return"><span class="nav-number">2.1.2.</span> <span class="nav-text">Return</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage-Guidelines"><span class="nav-number">2.2.</span> <span class="nav-text">Usage Guidelines</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Let-mapStateToProps-Reshape-the-Data-from-the-Store"><span class="nav-number">2.2.1.</span> <span class="nav-text">Let mapStateToProps Reshape the Data from the Store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-Selector-Functions-to-Extract-and-Transform-Data"><span class="nav-number">2.2.2.</span> <span class="nav-text">Use Selector Functions to Extract and Transform Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapStateToProps-Functions-Should-Be-Fast"><span class="nav-number">2.2.3.</span> <span class="nav-text">mapStateToProps Functions Should Be Fast</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapStateToProps-Functions-Should-Be-Pure-and-Synchronous"><span class="nav-number">2.2.4.</span> <span class="nav-text">mapStateToProps Functions Should Be Pure and Synchronous</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Connect-Dispatching-Actions-with-mapDispatchToProps"><span class="nav-number">3.</span> <span class="nav-text">Connect: Dispatching Actions with mapDispatchToProps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Approaches-for-Dispatching"><span class="nav-number">3.1.</span> <span class="nav-text">Approaches for Dispatching</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Default-dispatch-as-a-Prop"><span class="nav-number">3.1.1.</span> <span class="nav-text">Default: dispatch as a Prop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Providing-A-mapDispatchToProps-Parameter"><span class="nav-number">3.1.2.</span> <span class="nav-text">Providing A mapDispatchToProps Parameter</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#More-Declarative"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">More Declarative</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pass-Down-Action-Dispatching-Logic-to-Unconnected-Child-Components"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">Pass Down Action Dispatching Logic to ( Unconnected ) Child Components</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Two-Forms-of-mapDispatchToProps"><span class="nav-number">3.2.</span> <span class="nav-text">Two Forms of mapDispatchToProps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Defining-mapDispatchToProps-As-A-Function"><span class="nav-number">3.3.</span> <span class="nav-text">Defining mapDispatchToProps As A Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Arguments-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">Arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Return-1"><span class="nav-number">3.3.2.</span> <span class="nav-text">Return</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Defining-the-mapDispatchToProps-Function-with-bindActionCreators"><span class="nav-number">3.3.3.</span> <span class="nav-text">Defining the mapDispatchToProps Function with bindActionCreators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Manually-Injecting-dispatch"><span class="nav-number">3.3.4.</span> <span class="nav-text">Manually Injecting dispatch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Defining-mapDispatchToProps-As-An-Object"><span class="nav-number">3.4.</span> <span class="nav-text">Defining mapDispatchToProps As An Object</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="HCLacids"
+    src="/images/avatar1.jpg">
+  <p class="site-author-name" itemprop="name">HCLacids</p>
+  <div class="site-description" itemprop="description">Fighting!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HCLacids" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;HCLacids" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/en" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HCLacids</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

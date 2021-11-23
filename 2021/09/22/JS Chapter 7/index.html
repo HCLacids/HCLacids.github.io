@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="HCL's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Object orientation with prototypes虽然在之后avascript或者其一些框架的使用中，原型和原型链的概念很少被提到。但是原型作为JavaScript的基本的重要概念之一，也是需要被我们掌握的。 原型的概念书上给出的概念 A prototype is an object to which the search for a particular property ca">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS Chapter 7">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;09&#x2F;22&#x2F;JS%20Chapter%207&#x2F;index.html">
+<meta property="og:site_name" content="HCL&#39;s Blog">
+<meta property="og:description" content="Object orientation with prototypes虽然在之后avascript或者其一些框架的使用中，原型和原型链的概念很少被提到。但是原型作为JavaScript的基本的重要概念之一，也是需要被我们掌握的。 原型的概念书上给出的概念 A prototype is an object to which the search for a particular property ca">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-10-25T05:20:44.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/09/22/JS%20Chapter%207/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>JS Chapter 7 | HCL's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HCL's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Recording the study progress</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">15</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/09/22/JS%20Chapter%207/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar1.jpg">
+      <meta itemprop="name" content="HCLacids">
+      <meta itemprop="description" content="Fighting!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HCL's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS Chapter 7
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-22 10:34:07" itemprop="dateCreated datePublished" datetime="2021-09-22T10:34:07+08:00">2021-09-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-25 13:20:44" itemprop="dateModified" datetime="2020-10-25T13:20:44+08:00">2020-10-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Object-orientation-with-prototypes"><a href="#Object-orientation-with-prototypes" class="headerlink" title="Object orientation with prototypes"></a>Object orientation with prototypes</h2><p>虽然在之后avascript或者其一些框架的使用中，原型和原型链的概念很少被提到。但是原型作为JavaScript的基本的重要概念之一，也是需要被我们掌握的。</p>
+<h3 id="原型的概念"><a href="#原型的概念" class="headerlink" title="原型的概念"></a>原型的概念</h3><p>书上给出的概念 A prototype is an object to which the search for a particular property can be delegated to.</p>
+<p>首先最简单的缩句理解prototype就是一个对象，对象有一些特殊的属性。</p>
+<h3 id="Understanding-protototypes"><a href="#Understanding-protototypes" class="headerlink" title="Understanding protototypes"></a>Understanding protototypes</h3><p>我们可以先创造一个对象，对象里面包含一些字面对象得标记</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">	prop1: <span class="number">1</span>,</span><br><span class="line">	prop2: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">	prop3: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以进行一些修改删除操作,也可以添加一个完全新的属性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">obj.prop1 = <span class="number">1</span>;</span><br><span class="line">obj.prop1 = [];</span><br><span class="line"><span class="keyword">delete</span> obj.prop2;</span><br><span class="line">obj.prop4 = <span class="string">"Hello"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>最后object的内容是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	prop1:[],</span><br><span class="line">	prop3:&#123;&#125;,</span><br><span class="line">	prop4:<span class="string">"Hello"</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>当在开发软件时，我们会希望减少代码的冗余量，尽可能的去重复利用一些代码，其中我们可以利用Javascript中继承的特性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> yoshi = &#123;<span class="attr">skulk</span>: <span class="literal">true</span>&#125;;</span><br><span class="line"><span class="keyword">const</span> hattori = &#123;<span class="attr">sneak</span>: <span class="literal">true</span>&#125;;</span><br><span class="line"><span class="keyword">const</span> kuma = &#123;<span class="attr">creep</span>: <span class="literal">true</span>&#125;;</span><br><span class="line">assert(<span class="string">"skulk"</span> <span class="keyword">in</span> yoshi, <span class="string">"Yoshi can skulk"</span>);</span><br><span class="line">assert(!(<span class="string">"sneak"</span> <span class="keyword">in</span> yoshi), <span class="string">"Yoshi cannot sneak"</span>);</span><br><span class="line">assert(!(<span class="string">"creep"</span> <span class="keyword">in</span> yoshi), <span class="string">"Yoshi cannot creep"</span>);</span><br><span class="line"><span class="built_in">Object</span>.setPrototypeOf(yoshi, hattori);<span class="comment">//把hattori设为yoshi的原型</span></span><br><span class="line">assert(<span class="string">"sneak"</span> <span class="keyword">in</span> yoshi, <span class="string">"Yoshi can now sneak"</span>);</span><br><span class="line">assert(!(<span class="string">"creep"</span> <span class="keyword">in</span> hattori), <span class="string">"Hattori cannot creep"</span>);</span><br><span class="line"><span class="built_in">Object</span>.setPrototypeOf(hattori, kuma);<span class="comment">//把kuma设为hattori的原型</span></span><br><span class="line">assert(<span class="string">"creep"</span> <span class="keyword">in</span> yoshi, <span class="string">"Hattori can now creep"</span>);</span><br><span class="line">assert(<span class="string">"creep"</span> <span class="keyword">in</span> hattori, <span class="string">"Yoshi can also creep"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>画一下这个一条原型链。[[prototype]]</p>
+<h3 id="Object-construction-and-prototypes"><a href="#Object-construction-and-prototypes" class="headerlink" title="Object construction and prototypes"></a>Object construction and prototypes</h3><p>我们首先使用JavaScript当中的new关键字来完成原型链的构成</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Ninja</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	Ninja.prototype.swingSword = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> ninja1 = Ninja();</span><br><span class="line">assert(ninja1 === <span class="literal">undefined</span>,<span class="string">"No instance of Ninja created."</span>);</span><br><span class="line"><span class="keyword">const</span> ninja2 = <span class="keyword">new</span> Ninja();</span><br><span class="line">assert(ninja2 &amp;&amp; ninja2.swingSword &amp;&amp; ninja2.swingSword(),<span class="string">"Instance exists and method is callable."</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Ninja这个函数对象当中我们创建了一个函数在他的原型当中，这个原型对象当中有constructor指向他自己（Ninja）和一个swingSword函数。当我们使用new关键字时，其实一共有四个步骤：</p>
+<ol>
+<li>new了之后，在内存中申请一块空闲的空间，存储创建的新的对象。</li>
+<li>在函数最顶端有一个理论上的空对象即this：把this设置为当前的对象。</li>
+<li>执行构造函数把this对象中的数据填满：设置对象的属性和方法的值。</li>
+<li>最后一步有一个隐式的return this; 把this这个对象返回。</li>
+</ol>
+<h4 id="instance-properties"><a href="#instance-properties" class="headerlink" title="instance properties"></a>instance properties</h4><p>这里我们用this参数来完成Ninja函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Ninja</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.swung = <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">this</span>.swingSword = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> !<span class="keyword">this</span>.swung;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line">Ninja.prototype.swingSword = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.swung;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> ninja = <span class="keyword">new</span> Ninja();</span><br><span class="line">assert(ninja.swingSword(), <span class="string">"Called the instance method, not the prototype method."</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上面提到的new关键字的实际四个步骤，这里的ninja其实就是指向ninja本身的this对象。ninja本身会有swung和swingSword属性，和他存在一个原型指向ninja的原型。ninja原型之中也会有一个swingSword方法，但是我们在调用swingSword方法可以看到返回的值为true而不是false本身，因为当我们调用swingSword时，ninja会在其本身去寻找有没有这个swingSword方法，当swingSword不存在时，才再开始在其原型中寻找函数。比如，我们会在一些数组对象Array或者字符串对象String使用一些方法时，sort，map等，我们并没有直接在这些对象之中定义，而是他们继承了Array和String的原型，而去他的原型当中寻找这些方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Ninja.prototype = &#123;</span><br><span class="line">	pierce: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当执行到该句时，Ninja的原型会指向新的这个对象包含pierce函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Ninja</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="keyword">const</span> ninja = <span class="keyword">new</span> Ninja();</span><br><span class="line">assert(<span class="keyword">typeof</span> ninja === <span class="string">"object"</span>, <span class="string">"The type of the instance is object."</span>);</span><br><span class="line">assert(ninja <span class="keyword">instanceof</span> Ninja, <span class="string">"instanceof identifies the constructor."</span>);</span><br><span class="line">assert(ninja.constructor === Ninja, <span class="string">"The ninja object was created by the  Ninja function"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>从这几行代码可以得出ninja是一个的对象，也是Ninja得一个实例，而ninja的原型里面的constructor指向的Ninja</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Ninja</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="keyword">const</span> ninja = <span class="keyword">new</span> Ninja();</span><br><span class="line"><span class="keyword">const</span> ninja2 = <span class="keyword">new</span> ninja.constructor();</span><br><span class="line">assert(ninja2 <span class="keyword">instanceof</span> Ninja, <span class="string">"It's a Ninja!"</span>);</span><br><span class="line">assert(ninja !== ninja2,<span class="string">"But not the same Ninja"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>我们通过ninja.constructor来构建一个新的对象，而ninja2也是一个Ninja的实例。</p>
+<h3 id="Achieving-inheritance"><a href="#Achieving-inheritance" class="headerlink" title="Achieving inheritance"></a>Achieving inheritance</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">Person.prototype.dance = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Ninja</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">Ninja.prototype = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="keyword">const</span> ninja = <span class="keyword">new</span> Ninja();</span><br><span class="line">assert(ninja <span class="keyword">instanceof</span> Ninja, <span class="string">"ninja receives functionality from the Ninja prototype"</span>);</span><br><span class="line">assert(ninja <span class="keyword">instanceof</span> Person, <span class="string">"...and the Person prototype"</span>);</span><br><span class="line">assert(ninja <span class="keyword">instanceof</span> <span class="built_in">Object</span>, <span class="string">"...and the Object prototype"</span>);</span><br><span class="line">assert(<span class="keyword">typeof</span> ninja.dance === <span class="string">"function"</span>,<span class="string">"..and can dance!"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这里是一个原型链的继承，ninja是Ninja的实例也是Person的实例也是一个对象实例。</p>
+<h3 id="Using-JavaScript-“classes”-in-ES6"><a href="#Using-JavaScript-“classes”-in-ES6" class="headerlink" title="Using JavaScript “classes” in ES6"></a>Using JavaScript “classes” in ES6</h3><p>我们实际在开发过程中，我们会经常使用ES6中的新特性classes。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ninja</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        walk()&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">swingSword()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ninja.prototype.swingSword = ()&#123; return true&#125;;</span></span><br><span class="line"><span class="keyword">static</span> dance()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> ninja = <span class="keyword">new</span> Ninja(<span class="string">"Yoshi"</span>);</span><br><span class="line">assert(ninja.swingSword(),<span class="string">"and he can swing a sword"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	dance()&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ninja</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name,weapon)&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">        <span class="keyword">this</span>.weapon = weapon;</span><br><span class="line">    &#125;</span><br><span class="line">    wieldWeapon()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/09/22/JS%20Chapter%205/" rel="next" title="JS Chapter 5">
+                  <i class="fa fa-chevron-left"></i> JS Chapter 5
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/09/22/Redux/" rel="prev" title="Redux">
+                  Redux <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-orientation-with-prototypes"><span class="nav-number">1.</span> <span class="nav-text">Object orientation with prototypes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原型的概念"><span class="nav-number">1.1.</span> <span class="nav-text">原型的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Understanding-protototypes"><span class="nav-number">1.2.</span> <span class="nav-text">Understanding protototypes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-construction-and-prototypes"><span class="nav-number">1.3.</span> <span class="nav-text">Object construction and prototypes</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#instance-properties"><span class="nav-number">1.3.1.</span> <span class="nav-text">instance properties</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Achieving-inheritance"><span class="nav-number">1.4.</span> <span class="nav-text">Achieving inheritance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Using-JavaScript-“classes”-in-ES6"><span class="nav-number">1.5.</span> <span class="nav-text">Using JavaScript “classes” in ES6</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="HCLacids"
+    src="/images/avatar1.jpg">
+  <p class="site-author-name" itemprop="name">HCLacids</p>
+  <div class="site-description" itemprop="description">Fighting!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HCLacids" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;HCLacids" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/en" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HCLacids</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
